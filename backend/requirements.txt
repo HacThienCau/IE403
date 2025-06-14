@@ -1,0 +1,6 @@
+flask
+flask-cors
+scikit-learn  # nếu bạn dùng sklearn lưu model.pkl
+joblib        # nếu dùng joblib để load mô hình
+torch
+transformers
