@@ -1,45 +1,25 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import joblib
+from predict import load_model, predict_comment
 
 app = Flask(__name__)
-CORS(app)  # Cho phép truy cập từ frontend React
+CORS(app)
 
-# Load model (nên dùng absolute path nếu cần)
-model = joblib.load('model.pkl')  # hoặc pickle.load()
+# Load model 1 lần khi server khởi động
+tokenizer, model = load_model()
 
-@app.route('/predict', methods=['POST'])
+@app.route("/predict", methods=["POST"])
 def predict():
     try:
         data = request.get_json()
-        comment = data.get('comment', '').strip()
-
-        if not comment:
-            return jsonify({
-                "status": "error",
-                "message": "Comment is missing."
-            }), 400
-
-        # Dự đoán với mô hình (giả sử model hỗ trợ dự đoán văn bản)
-        prediction = model.predict([comment])
-
-        # Nếu model trả ra 1 label (string), ta bọc vào array
-        if not isinstance(prediction, list):
-            prediction = prediction.tolist()
-
+        comment = data.get("comment", "")
+        labels = predict_comment(comment, tokenizer, model)
         return jsonify({
             "status": "success",
-            "data": {
-                "label": prediction  # luôn trả array về
-            }
+            "data": { "label": labels }
         })
-
     except Exception as e:
-        print("Prediction error:", e)
-        return jsonify({
-            "status": "error",
-            "message": str(e)
-        }), 500
+        return jsonify({ "status": "error", "message": str(e) }), 500
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
