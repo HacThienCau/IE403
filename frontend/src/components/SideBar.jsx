@@ -5,85 +5,55 @@ import { ChartPie, Home, User } from "lucide-react";
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const navItems = [
+    { label: "Trang chủ", path: "/", icon: Home },
+    { label: "Phân tích", path: "/analysis", icon: ChartPie },
+    { label: "Về chúng tôi", path: "/about", icon: User },
+  ];
+
   return (
-    <div className="w-64 h-screen bg-theme-light-sidebar dark:bg-theme-dark-sidebar">
-      <p className="mt-10 font-semibold text-2xl text-theme-light-text dark:text-theme-dark-text text-center p-5 mb-10">
-        IE403 - Nhóm 19
-      </p>
-      <button
-        className={`w-64 h-12 flex items-center justify-center ${
-          location.pathname === "/" ? "bg-theme-light-active" : ""
-        }`}
-        onClick={() => navigate("/")}
-      >
-        <Home
-          className={`w-6 h-6 inline-block mr-2 ${
-            location.pathname === "/"
-              ? "text-theme-dark-text"
-              : "text-theme-light-active"
-          }`}
-        />
-        <p
-          className={`text-xl ${
-            location.pathname === "/"
-              ? "text-theme-dark-text font-bold"
-              : "text-theme-light-active font-semibold"
-          }`}
-        >
-          Trang chủ
+    <div className="w-64 h-screen bg-theme-light-sidebar dark:bg-theme-dark-sidebar flex flex-col justify-between py-8 shadow-lg">
+      {/* Logo */}
+      <div>
+        <p className="text-2xl font-bold text-center mb-8 text-theme-light-text dark:text-theme-dark-text">
+          IE403 - Nhóm 19
         </p>
-      </button>
-      <button
-        className={`w-64 h-12 flex items-center justify-center ${
-          location.pathname === "/analysis" ? "bg-[#00ADB5]" : ""
-        }`}
-        onClick={() => {
-          navigate("/analysis");
-        }}
-      >
-        <ChartPie
-          className={`w-6 h-6 inline-block mr-2 ${
-            location.pathname === "/analysis"
-              ? "text-theme-dark-text"
-              : "text-theme-light-active"
-          }`}
-        />
-        <p
-          className={`text-xl ${
-            location.pathname === "/analysis"
-              ? "text-theme-dark-text font-bold"
-              : "text-theme-light-active font-semibold"
-          }`}
-        >
-          Phân tích
-        </p>
-      </button>
-      <button
-        className={`w-64 h-12 flex items-center justify-center ${
-          location.pathname === "/about" ? "bg-[#00ADB5]" : ""
-        }`}
-        onClick={() => {
-          navigate("/about");
-        }}
-      >
-        <User
-          className={`w-6 h-6 inline-block mr-2 ${
-            location.pathname === "/about"
-              ? "text-theme-dark-text"
-              : "text-theme-light-active"
-          }`}
-        />
-        <p
-          className={`text-xl ${
-            location.pathname === "/about"
-              ? "text-theme-dark-text font-bold"
-              : "text-theme-light-active font-semibold"
-          }`}
-        >
-          Về chúng tôi
-        </p>
-      </button>
-      <div className="fixed bottom-10 left-0 w-64 flex justify-center">
+
+        {/* Navigation */}
+        <nav className="space-y-2">
+          {navItems.map(({ label, path, icon: Icon }) => {
+            const isActive = location.pathname === path;
+            return (
+              <button
+                key={path}
+                onClick={() => navigate(path)}
+                className={`w-full flex items-center gap-3 px-6 py-3 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#00ADB5] text-white"
+                    : "hover:bg-[#00ADB5]/10 text-theme-light-active dark:text-theme-light-active"
+                }`}
+              >
+                <Icon
+                  className={`w-5 h-5 ${
+                    isActive ? "text-white" : "text-theme-light-active"
+                  }`}
+                />
+                <span
+                  className={`text-lg font-medium ${
+                    isActive ? "text-white" : ""
+                  }`}
+                >
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Theme Toggle */}
+      <div className="flex justify-center">
         <ThemeToggleButton />
       </div>
     </div>
