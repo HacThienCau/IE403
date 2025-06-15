@@ -9,7 +9,7 @@ function App() {
     <Router>
       <div className="flex h-screen">
         <Sidebar />
-        <main className="flex-1 flex p-[40px] bg-theme-light-bg dark:bg-theme-dark-bg">
+        <main className="flex-1 flex p-[40px] bg-theme-light-bg dark:bg-theme-dark-bg overflow-y-auto">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />

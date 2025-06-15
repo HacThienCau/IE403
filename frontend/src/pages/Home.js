@@ -26,8 +26,7 @@ export default function Home() {
 
   return (
     <div className="w-full">
-      <p className="text-4xl font-bold w-full text-center text-theme-light-text dark:text-theme-dark-text mb-10">Bài toán phát hiện lời nói xúc phạm trên MXH theo đối tượng</p>
-      <form onSubmit={handleSubmit} className="flex flex-col relative gap-2">
+      <p className="text-4xl font-bold w-full text-center text-theme-light-text dark:text-theme-dark-text mb-10">Nhận diện phát ngôn thù ghét nhắm vào đối tượng cụ thể trên MXH</p>        <form onSubmit={handleSubmit} className="flex flex-col relative gap-2">
         <label className="text-theme-light-text dark:text-theme-dark-text font-semibold mb-2 text-xl">Nhập văn bản:</label>
         <textarea
           placeholder="Điền văn bản của bạn tại đây"
