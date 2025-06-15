@@ -67,14 +67,12 @@ export default function Analysis() {
           </p>
         </div>
       ) : (
-        <div className="w-full h-full min-h-screen mb-10">
+        <div className="w-full h-full min-h-screen flex flex-col mb-10">
           {/*Bộ dữ liệu ViHSD*/}
           <p className="text-xl font-bold w-full text-theme-light-text dark:text-theme-dark-text mb-5">
             Bộ dữ liệu:
           </p>
-          <ul
-            className="mb-5 list-disc marker:text-theme-dark-active pl-5 text-theme-light-text dark:text-theme-dark-text"
-          >
+          <ul className="mb-5 list-disc marker:text-theme-dark-active pl-5 text-theme-light-text dark:text-theme-dark-text">
             <li>
               <strong>Nguồn:</strong> Dữ liệu từ{" "}
               <a
@@ -146,7 +144,7 @@ export default function Analysis() {
             Bài báo gốc:
           </p>
           <a
-            className="text-lg w-full text-center text-theme-light-text dark:text-theme-dark-text hover:text-theme-dark-active hover:dark:text-theme-dark-active mb-5 cursor-pointer"
+            className="text-lg w-full text-theme-light-text dark:text-theme-dark-text hover:text-theme-dark-active hover:dark:text-theme-dark-active cursor-pointer"
             href="https://arxiv.org/abs/2404.19252"
             rel="noreferrer"
             target="_blank"
@@ -215,9 +213,7 @@ export default function Analysis() {
                 (LLMs), đặc biệt thông qua kỹ thuật chain-of-thought reasoning
                 (CoT). Phương pháp của HARE bao gồm:
               </p>
-              <ul
-                className="list-disc marker:text-theme-dark-active pl-5 text-theme-light-text dark:text-theme-dark-text"
-              >
+              <ul className="list-disc marker:text-theme-dark-active pl-5 text-theme-light-text dark:text-theme-dark-text">
                 <li>
                   Sinh lập luận từng bước (rationale) bằng cách sử dụng CoT
                   prompt, giúp lấp đầy khoảng trống lý luận trong các chú thích
@@ -240,14 +236,50 @@ export default function Analysis() {
                 ghét.
               </p>
             </div>
-            <img src="/images/hare.png" alt=" HARE uses large language models (LLMs) to generate hate speech explanations step-by-step." className="w-[500px] h-[400px]"/>
+            <img
+              src="/images/hare.png"
+              alt=" HARE uses large language models (LLMs) to generate hate speech explanations step-by-step."
+              className="w-[250px] lg:w-[500px] h-[200px] lg:h-[400px]"
+            />
           </div>
           <p className="text-lg font-bold w-full text-theme-light-text dark:text-theme-dark-text mb-5">
             B. Pipeline:
-        </p>
-        <p>
-            
-        </p>
+            <br />
+            GIAI ĐOẠN 01: TẠO TARGET + IMPLIED TỪ DATASET VITHSD
+          </p>
+          <img
+            src="/images/gd1.png"
+            alt="GIAI ĐOẠN 01:  TẠO TARGET + IMPLIED TỪ DATASET VITHSD"
+            className="w-[600px] self-center mb-5"
+          />
+          <ul className="list-disc marker:text-theme-dark-active pl-5 text-theme-light-text dark:text-theme-dark-text mb-5">
+            <li>
+              Sử dụng Gemini Flash 2.5 preview để gán target và implied ⟹ 4
+              thành viên trong nhóm check lại
+            </li>
+            <li>
+              Thiết kế lại prompt của nghiên cứu gốc ⟹ phù hợp với dataset và
+              bài toán của nhóm
+            </li>
+            <li>Dùng GPT o3-mini để tạo rationale</li>
+          </ul>
+          <p className="text-lg font-bold w-full text-theme-light-text dark:text-theme-dark-text mb-5">
+            GIAI ĐOẠN 02:  LOẠI BỎ RATIONALE GÂY NHIỄU (DOUBLE CHECK)
+          </p>
+          <img
+            src="/images/gd2.png"
+            alt="GIAI ĐOẠN 02:  LOẠI BỎ RATIONALE GÂY NHIỄU (DOUBLE CHECK)"
+            className="w-[500px] self-center mb-5"
+          />
+          <ul className="list-disc marker:text-theme-dark-active pl-5 text-theme-light-text dark:text-theme-dark-text">
+            <li>
+            Nếu dự đoán nhãn C đúng với nhãn thật của bài đăng, thì lấy luôn cả nhãn C và rationale ⟹  train model
+            </li>
+            <li>
+            Nếu dự đoán nhãn C sai, thì chỉ dùng nhãn C để huấn luyện (không dùng rationale vì nó có thể sai lệch hoặc gây nhiễu).
+            </li>
+          </ul>
+          <p className="w-full text-theme-light-text dark:text-theme-dark-text pb-10">⟹ Mục đích là đảm bảo mô hình chỉ học các lời giải thích phù hợp với nhãn đúng, tránh nhiễu do rationale “lạc đề”.</p>
         </div>
       )}
     </div>
